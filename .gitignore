@@ -10,6 +10,9 @@ venv/
 .referee_lock.json
 .env
 .DS_Store
+# local build / publish artifacts
 _*.log
 _*.txt
 _wheels*/
+_whl*/
+_publish.ps1

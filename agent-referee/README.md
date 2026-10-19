@@ -3,7 +3,7 @@
 > **Cryptographic testbench lock & anti-reward-hacking gate for autonomous coding agents** (Claude Code, Codex, Antigravity, any agent that can edit your repo).
 
 [![CI](https://github.com/vanovri/agent-referee/actions/workflows/ci.yml/badge.svg)](https://github.com/vanovri/agent-referee/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/badge/pypi-agent--referee-blue)](https://pypi.org/project/agent-referee/)
+[![PyPI](https://img.shields.io/badge/pypi-agent--referee--gate-blue)](https://pypi.org/project/agent-referee-gate/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 
@@ -25,8 +25,12 @@ test**, **drop the failing assertion**, or **stub the function under test**.
 ## Install
 
 ```bash
-pip install agent-referee
+pip install agent-referee-gate
 ```
+
+Installing `agent-referee` from PyPI gets you an unrelated project that owns that
+name — the distribution here is `agent-referee-gate`, the command is
+`agent-referee`.
 
 ## Usage (human)
 

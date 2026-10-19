@@ -8,7 +8,7 @@ CI; the two signing gates ([`agent-referee`](agent-referee/) and
 
 | Repo | What it guarantees | CLI | Install |
 | --- | --- | --- | --- |
-| [`agent-referee`](agent-referee/) | Failing tests can never be deleted, weakened or rewritten by an agent (SHA-256 lock + AST assertion floor + runtime regression gate) | `agent-referee` | `pip install agent-referee` |
+| [`agent-referee`](agent-referee/) | Failing tests can never be deleted, weakened or rewritten by an agent (SHA-256 lock + AST assertion floor + runtime regression gate) | `agent-referee` | `pip install agent-referee-gate` |
 | [`redflag-loop`](redflag-loop/) | A security patch is only accepted after the exploit is *proven* against the old handler and *blocked* by the new one | `redflag-loop` | `pip install redflag-loop` |
 | [`claude-build-healer`](claude-build-healer/) | 5,000-line compiler dumps become a <300-token diagnostic JSON with source context | `build-healer` | `pip install claude-build-healer` |
 | [`mcp-spatial-critic`](mcp-spatial-critic/) | STL meshes are manifold, grounded on Z=0, single-shell and thick enough to print | `mcp-spatial-critic` | `pip install mcp-spatial-critic` |

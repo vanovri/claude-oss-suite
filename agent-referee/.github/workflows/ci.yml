@@ -48,7 +48,8 @@ jobs:
       - name: Install the built wheel and smoke-test it
         run: |
           python -m pip install --disable-pip-version-check dist/*.whl
-          python -c "import importlib.metadata as m; print('installed', m.version('{{PACKAGE_NAME}}'))"
+          python -c "import importlib.metadata as m; print('installed', m.version('agent-referee-gate'))"
+          agent-referee --help
       - uses: actions/upload-artifact@v4
         with:
           name: dist
