@@ -9,6 +9,10 @@ bug, orders the work, and escalates the moment a round stops making progress.
 No LLM calls. No network. No dependencies. It reads text you already have.
 
 ```
+# from GitHub — works today
+pip install git+https://github.com/vanovri/claude-build-healer
+
+# from PyPI — once 0.1.0 is uploaded
 pip install claude-build-healer
 build-healer plan examples/tsc_failure.log
 ```

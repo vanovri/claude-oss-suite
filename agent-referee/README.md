@@ -25,11 +25,15 @@ test**, **drop the failing assertion**, or **stub the function under test**.
 ## Install
 
 ```bash
+# from GitHub — works today
+pip install git+https://github.com/vanovri/agent-referee
+
+# from PyPI — once 0.1.0 is uploaded
 pip install agent-referee-gate
 ```
 
-Installing `agent-referee` from PyPI gets you an unrelated project that owns that
-name — the distribution here is `agent-referee-gate`, the command is
+The PyPI name `agent-referee` already belongs to an unrelated project, so the
+distribution here is `agent-referee-gate` while the command stays
 `agent-referee`.
 
 ## Usage (human)

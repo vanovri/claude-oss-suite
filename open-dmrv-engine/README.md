@@ -15,6 +15,10 @@ bundle is refused — so a rejection is auditable too.
 No network, no LLM, no clock, no dependencies. Python 3.10+.
 
 ```bash
+# from GitHub — works today
+pip install git+https://github.com/vanovri/open-dmrv-engine
+
+# from PyPI — once 0.1.0 is uploaded
 pip install open-dmrv-engine
 open-dmrv verify examples/batches_pass.json
 ```

@@ -1,18 +1,19 @@
 # Claude OSS Suite — deterministic verification infrastructure for autonomous coding agents
 
 Five small, composable open-source tools that make unattended AI coding runs
-**safe, auditable and token-efficient**. Every package is installable in one
-`pip install`, ships with a deterministic unit-test suite, and runs as a CLI in
-CI; the two signing gates ([`agent-referee`](agent-referee/) and
+**safe, auditable and token-efficient**. Every package installs with one
+`pip install` — straight from its repository today, from PyPI once the release
+workflow is switched on — ships with a deterministic unit-test suite, and runs as
+a CLI in CI; the two signing gates ([`agent-referee`](agent-referee/) and
 [`open-dmrv-engine`](open-dmrv-engine/)) also ship composite GitHub Actions.
 
 | Repo | What it guarantees | CLI | Install |
 | --- | --- | --- | --- |
-| [`agent-referee`](agent-referee/) | Failing tests can never be deleted, weakened or rewritten by an agent (SHA-256 lock + AST assertion floor + runtime regression gate) | `agent-referee` | `pip install agent-referee-gate` |
-| [`redflag-loop`](redflag-loop/) | A security patch is only accepted after the exploit is *proven* against the old handler and *blocked* by the new one | `redflag-loop` | `pip install redflag-loop` |
-| [`claude-build-healer`](claude-build-healer/) | 5,000-line compiler dumps become a <300-token diagnostic JSON with source context | `build-healer` | `pip install claude-build-healer` |
-| [`mcp-spatial-critic`](mcp-spatial-critic/) | STL meshes are manifold, grounded on Z=0, single-shell and thick enough to print | `mcp-spatial-critic` | `pip install mcp-spatial-critic` |
-| [`open-dmrv-engine`](open-dmrv-engine/) | Pyrolysis telemetry cannot violate mass balance, thermal regime or H/C_org permanence before a Merkle root is signed | `open-dmrv` | `pip install open-dmrv-engine` |
+| [`agent-referee`](agent-referee/) | Failing tests can never be deleted, weakened or rewritten by an agent (SHA-256 lock + AST assertion floor + runtime regression gate) | `agent-referee` | `pip install git+https://github.com/vanovri/agent-referee` |
+| [`redflag-loop`](redflag-loop/) | A security patch is only accepted after the exploit is *proven* against the old handler and *blocked* by the new one | `redflag-loop` | `pip install git+https://github.com/vanovri/redflag-loop` |
+| [`claude-build-healer`](claude-build-healer/) | 5,000-line compiler dumps become a <300-token diagnostic JSON with source context | `build-healer` | `pip install git+https://github.com/vanovri/claude-build-healer` |
+| [`mcp-spatial-critic`](mcp-spatial-critic/) | STL meshes are manifold, grounded on Z=0, single-shell and thick enough to print | `mcp-spatial-critic` | `pip install git+https://github.com/vanovri/mcp-spatial-critic` |
+| [`open-dmrv-engine`](open-dmrv-engine/) | Pyrolysis telemetry cannot violate mass balance, thermal regime or H/C_org permanence before a Merkle root is signed | `open-dmrv` | `pip install git+https://github.com/vanovri/open-dmrv-engine` |
 
 ## Quick start (all five, offline)
 
@@ -56,29 +57,30 @@ python -m agent_referee.cli verify
 
 ## Releasing
 
-Each folder is published as its own repository and its own PyPI project; the
-suite repo stays as the monorepo source of truth.
+All five packages already live as their own repositories under
+[`vanovri`](https://github.com/vanovri) at tag `v0.1.0`; this monorepo stays the
+source of truth. Push one package after a change:
 
 ```bash
-# 1. split one package into its own repo (history preserved)
-git subtree push --prefix=open-dmrv-engine git@github.com:vanovri/open-dmrv-engine.git main
-
-# 2. every repo: tag the release the READMEs reference
-git tag -a v0.1.0 -m "open-dmrv-engine 0.1.0" && git push origin v0.1.0
-
-# 3. build and upload (test index first)
-python -m pip install --upgrade build twine
-cd open-dmrv-engine
-python -m build                       # sdist + wheel in dist/
-python -m twine upload --repository testpypi dist/*
-python -m twine upload dist/*
+git subtree push --prefix=open-dmrv-engine https://github.com/vanovri/open-dmrv-engine.git main
 ```
 
 `_validate.py` must print `All metadata checks passed.` before tagging: it checks
 that each `pyproject.toml` parses, that declared actions exist, and that every
-repo has a CI workflow. PyPI trusted publishing (OIDC) is preferable to a stored
-token — add `pypi` as a trusted publisher for each project and upload from the
-`package` job of its workflow.
+repo has a CI workflow.
+
+PyPI upload runs from `.github/workflows/release.yml` on every `v*` tag through
+[trusted publishing](https://docs.pypi.org/trusted-publishers/), so no token is
+stored anywhere. One-time setup per project, on PyPI:
+
+1. Add a *pending publisher* — Owner `vanovri`, Repository `<repo>`, Workflow
+   `release.yml`, Environment `pypi`.
+2. Push a tag: `git tag -a v0.1.0 -m "<repo> 0.1.0" && git push origin v0.1.0`.
+   The job builds the sdist + wheel and uploads both.
+
+Until that publisher exists, install from git (see the table above).
+`agent-referee` publishes as **`agent-referee-gate`** because the PyPI name
+`agent-referee` already belongs to an unrelated project.
 
 ## Contributing
 

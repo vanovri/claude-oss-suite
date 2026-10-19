@@ -11,6 +11,10 @@ No LLM calls. No network. No telemetry. Just a state machine you can drop into a
 harness, a CI job, or a pre-commit hook.
 
 ```
+# from GitHub — works today
+pip install git+https://github.com/vanovri/redflag-loop
+
+# from PyPI — once 0.1.0 is uploaded
 pip install redflag-loop
 redflag-loop check examples/loop_events.jsonl
 ```
