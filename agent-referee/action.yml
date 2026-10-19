@@ -1,0 +1,54 @@
+name: 'Agent Referee Gate'
+description: 'Block AI coding agents from deleting, rewriting or weakening tests, and from regressing suite runtime.'
+author: 'Ardhya Novri Ramadhan'
+branding:
+  icon: 'shield'
+  color: 'purple'
+
+inputs:
+  mode:
+    description: 'lock (create/update the baseline) or verify (default)'
+    required: false
+    default: 'verify'
+  test-dir:
+    description: 'Directory containing the immutable tests'
+    required: false
+    default: 'tests'
+  test-cmd:
+    description: 'Command used to execute the suite'
+    required: false
+    default: 'python -m unittest discover -s tests -q'
+  max-regression-pct:
+    description: 'Maximum allowed runtime regression (percent)'
+    required: false
+    default: '20'
+  working-directory:
+    description: 'Repository root that contains .referee_lock.json'
+    required: false
+    default: '.'
+
+outputs:
+  exit-code:
+    description: '0 intact, 2 reward hacking, 3 suite failure, 4 perf regression'
+    value: ${{ steps.referee.outputs.exit-code }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install agent-referee
+      shell: bash
+      run: python -m pip install --disable-pip-version-check "agent-referee>=0.1.0"
+
+    - name: Run referee gate
+      id: referee
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set +e
+        python -m agent_referee.cli "${{ inputs.mode }}" \
+          --tests "${{ inputs.test-dir }}" \
+          --cmd "${{ inputs.test-cmd }}" \
+          --max-regression-pct "${{ inputs.max-regression-pct }}"
+        status=$?
+        echo "exit-code=$status" >> "$GITHUB_OUTPUT"
+        exit $status

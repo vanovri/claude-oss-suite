@@ -1,0 +1,8 @@
+# A realistic failing transcript: one edit, then the same failing test three
+# times in a row, then a completion claim with a red test.
+{"type": "action", "action": {"tool": "read", "path": "src/app.py"}, "mutation": false}
+{"type": "action", "action": {"tool": "edit", "path": "src/app.py"}, "artifacts": ["src/app.py"]}
+{"type": "action", "action": {"tool": "test", "command": "pytest -q"}}
+{"type": "action", "action": {"tool": "test", "command": "pytest -q"}}
+{"type": "action", "action": {"tool": "test", "command": "pytest -q"}}
+{"type": "complete", "task": "T1", "evidence": [{"command": "pytest -q", "exit_code": 1, "output_tail": "3 failed"}]}

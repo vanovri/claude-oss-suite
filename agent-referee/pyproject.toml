@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-referee"
+version = "0.1.0"
+description = "Cryptographic testbench lock and anti-reward-hacking gate for autonomous coding agents (Claude Code, Codex, Antigravity)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Ardhya Novri Ramadhan" }]
+requires-python = ">=3.10"
+keywords = ["ai-agents", "claude-code", "reward-hacking", "verification", "ci", "github-actions"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "twine>=5.0", "pytest>=8.0"]
+
+[project.scripts]
+agent-referee = "agent_referee.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/vanovri/agent-referee"
+Repository = "https://github.com/vanovri/agent-referee"
+Issues = "https://github.com/vanovri/agent-referee/issues"
+Changelog = "https://github.com/vanovri/agent-referee/releases"
+
+[tool.setuptools]
+packages = ["agent_referee"]

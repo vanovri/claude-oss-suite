@@ -1,0 +1,7 @@
+# A clean transcript: explore, edit, verify with a green test, then complete.
+{"type": "action", "action": {"tool": "grep", "pattern": "TODO"}, "mutation": false}
+{"type": "action", "action": {"tool": "edit", "path": "src/app.py"}, "artifacts": ["src/app.py"]}
+{"type": "action", "action": {"tool": "test", "command": "pytest -q"}}
+{"type": "action", "action": {"tool": "edit", "path": "tests/test_app.py"}, "artifacts": ["tests/test_app.py"]}
+{"type": "action", "action": {"tool": "test", "command": "pytest -q"}}
+{"type": "complete", "task": "T1", "evidence": [{"command": "pytest -q", "exit_code": 0, "output_tail": "12 passed"}]}

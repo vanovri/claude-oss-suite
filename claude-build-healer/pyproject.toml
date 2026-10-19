@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-build-healer"
+version = "0.1.0"
+description = "Bounded fix loops for failing builds: deduplicates compiler and test errors, tracks attempts per fingerprint, and escalates instead of patching forever."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Ardhya Novri Ramadhan" }]
+requires-python = ">=3.10"
+keywords = ["ai-agents", "build", "ci", "claude", "devtools", "error-parsing", "llm", "verification"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "twine>=5.0", "pytest>=8.0"]
+
+[project.scripts]
+build-healer = "build_healer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/vanovri/claude-build-healer"
+Repository = "https://github.com/vanovri/claude-build-healer"
+Issues = "https://github.com/vanovri/claude-build-healer/issues"
+
+[tool.setuptools]
+packages = ["build_healer"]

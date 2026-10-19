@@ -1,0 +1,80 @@
+name: open-dmrv verify
+description: Verify pyrolysis telemetry against mass balance, thermal regime and H/C_org permanence gates; fail the job if a removal bundle is not signable.
+author: Ardhya Novri Ramadhan
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  path:
+    description: 'Path to a JSON batch file (an array, or an object with a "batches" list) or a .jsonl transcript.'
+    required: true
+  python:
+    description: 'Python interpreter that already has, or can install, open-dmrv-engine.'
+    required: false
+    default: python
+  allow-review:
+    description: 'Exit 0 when only soft checks (biochar yield, moisture) fail and all hard gates pass.'
+    required: false
+    default: "false"
+  report:
+    description: 'Where to write the full JSON report.'
+    required: false
+    default: dmrv-report.json
+
+outputs:
+  status:
+    description: pass, review, blocked, or empty.
+    value: ${{ steps.verify.outputs.status }}
+  merkle-root:
+    description: Merkle root over the batch leaves, computed even when the bundle is blocked.
+    value: ${{ steps.verify.outputs.merkle_root }}
+  report:
+    description: Path to the JSON report.
+    value: ${{ inputs.report }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install open-dmrv-engine
+      shell: bash
+      run: ${{ inputs.python }} -m pip install --disable-pip-version-check "${{ github.action_path }}"
+
+    - name: Verify batches
+      id: verify
+      shell: bash
+      env:
+        DMRV_PATH: ${{ inputs.path }}
+        DMRV_REPORT: ${{ inputs.report }}
+        DMRV_ALLOW_REVIEW: ${{ inputs.allow-review }}
+      run: |
+        args=()
+        if [ "$DMRV_ALLOW_REVIEW" = "true" ]; then
+          args+=(--allow-review)
+        fi
+
+        set +e
+        ${{ inputs.python }} -m open_dmrv.cli verify "$DMRV_PATH" --json "${args[@]}" > "$DMRV_REPORT"
+        code=$?
+        set -e
+
+        if [ "$code" -eq 2 ]; then
+          rm -f "$DMRV_REPORT"
+          echo "::error::open-dmrv could not read $DMRV_PATH"
+          exit 2
+        fi
+
+        ${{ inputs.python }} - >> "$GITHUB_OUTPUT" <<'PY'
+        import json, os
+        data = json.load(open(os.environ["DMRV_REPORT"], encoding="utf-8"))
+        print("status=" + data["status"])
+        print("merkle_root=" + data["merkle_root"])
+        PY
+
+        cat "$DMRV_REPORT"
+
+        if [ "$code" -ne 0 ]; then
+          violations=$(${{ inputs.python }} -c "import json,os;print(', '.join(json.load(open(os.environ['DMRV_REPORT']))['violations']))")
+          echo "::error::removal bundle is not signable ($violations)"
+          exit 1
+        fi

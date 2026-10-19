@@ -1,0 +1,7 @@
+src/main.c: In function 'main':
+src/main.c:12:5: error: use of undeclared identifier 'cfg'
+   12 |     cfg = load();
+      |     ^~~
+src/util.c:7:9: warning: unused variable 'tmp' [-Wunused-variable]
+src/util.c:31:1: error: expected ';' before '}' token
+make: *** [Makefile:14: app] Error 1

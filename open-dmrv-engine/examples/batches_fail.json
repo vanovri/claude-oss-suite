@@ -1,0 +1,41 @@
+{
+  "site": "demo-kiln-01",
+  "batches": [
+    {
+      "batch_id": "SLOW-BAD-01",
+      "process": "slow",
+      "feedstock_kg": 1000.0,
+      "biochar_kg": 600.0,
+      "syngas_kg": 100.0,
+      "bio_oil_kg": 0.0,
+      "peak_temp_c": 720.0,
+      "residence_min": 5.0,
+      "h_c_org": 0.9,
+      "moisture_pct": 30.0
+    },
+    {
+      "batch_id": "SLOW-004",
+      "process": "slow",
+      "feedstock_kg": 800.0,
+      "biochar_kg": 240.0,
+      "syngas_kg": 520.0,
+      "bio_oil_kg": 30.0,
+      "peak_temp_c": 470.0,
+      "residence_min": 45.0,
+      "h_c_org": 0.78,
+      "moisture_pct": 14.0
+    },
+    {
+      "batch_id": "FAST-005",
+      "process": "fast",
+      "feedstock_kg": 400.0,
+      "biochar_kg": 60.0,
+      "syngas_kg": 330.0,
+      "bio_oil_kg": 4.0,
+      "peak_temp_c": 520.0,
+      "residence_min": 10.0,
+      "h_c_org": 0.55,
+      "moisture_pct": 8.0
+    }
+  ]
+}
